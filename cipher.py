@@ -1,60 +1,24 @@
+def encrypt(input_text: str, N: int, D: int):
+    return cipher(input_text,N,D,True)
 
-def encrypt(inputText, N, D):
- firstText = inputText[::-1]
+def decrypt(input_text: str, N: int, D: int):
+    return cipher(input_text,N,D,False)
 
- n = int(N)
- d = int(D)
- if(d != 1 and d != -1):
-  print("Invalid Input")
-  return
- if(n < 1):
-  print("Invalid Input")
-  return
- encryptedText = asciiText(firstText, n, d)
- 
- return encryptedText
+def cipher(input_text: str, N: int, D:int, encrypt: bool):
+    values = []
+    if(D != -1 and D != 1):
+        print("Direction need to either be -1 or 1")
+        return
+    for char in input_text:
+        if char == " " or char == "!":
+            print("Input text can't contain spaces or !")
+            return
+        values.append(ord(char))
 
-
-def reverseText(inputText):
-    reversedText = inputText[::-1]
-    return reverseText
-
-def asciiText(inputText, n, d):
- ascii_values = []
- shift = n * d
- for character in inputText:
-  ascii = ord(character)
-  if(ascii == 32 or ascii == 33):
-    print("Invalid Input")
-    return
-  ascii_values.append(ascii)
- new_values = [x + shift for x in ascii_values]
- invertedText = ""
- for i in new_values:
-  invertedText = invertedText + chr(i)
- 
- return invertedText
-
-def decrypt(inputText, N, D):
-  #FirstText = inputText[::-1]
-
-  n = int(N)
-  d = int(D)*-1
-
-  FirstText = asciiText(inputText, d, n) 
-  
-  if(d != 1 and d != -1):
-    print("Invalid Input")
-    return
-  if(n < 1):
-    print("Invalid Input")
-    return
-  decryptedText = FirstText[::-1]
-
-  return decryptedText
-
-
-
-
-
- 
+    values.reverse()
+    if encrypt == True:
+        N *= D
+    else:
+        N *= D * -1
+    ret = [chr(val + N) for val in values]
+    return ''.join(ret)

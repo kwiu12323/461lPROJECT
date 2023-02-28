@@ -81,5 +81,7 @@ def fetchProject():
     #TODO query mongo db for project that has both
     return
 
-
+@main.route("/members")
+def members():
+    return {"members": ["Member1","Member2","Member3"]}   
 

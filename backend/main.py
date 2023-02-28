@@ -13,7 +13,9 @@ DESCRIPTION = "description"
 
 @main.route('/')
 def index():    #this is temporary, im just adding a new user to the database to see if mongodb and backend is connected
-    return '<h1>Backend!</h1>'
+    user_collection = mongo.db.users
+    user_collection.insert_one({"name" : "testing name"})
+    return '<h1>Backend! Added a name to the database</h1>'
 
 #
 # SIGNUP POST BODY CONTENTS:
@@ -29,11 +31,17 @@ def signup():
     userID = encrypt(data[USERID])
     password = encrypt(data[PASSWORD])
     user = User(username=username, userID=userID, password=password)
+    user_collection = mongo.db.users
+    result = user_collection.insert_one(user)
+    if result.inserted_id:
+        return "Success"
+
+    '<h1>Added a User!</h1>'
      # TODO: HIT mongo db 
     # user_collection = mongo.db.users
     # user_collection.insert_one(user)
     #TODO: return json of user object
-    return user
+    
 
 
 #

@@ -1,0 +1,20 @@
+[
+    {
+      "id": 1,
+      "Name": "Project Name 1",
+      "HW1": "HWSet1 0/100",
+      "HW2": "HWSet2 0/100"
+    },
+    {
+      "id": 2,
+      "Name": "Project Name 2",
+      "HW1": "HWSet1 0/100",
+      "HW2": "HWSet2 0/100"
+    },
+    {
+      "id": 3,
+      "Name": "Project Name 3",
+      "HW1": "HWSet1 0/100",
+      "HW2": "HWSet2 0/100"
+    }
+]

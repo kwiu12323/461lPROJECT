@@ -1,9 +1,32 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
+import axios from "axios";
+
+
 import data from "./projectsdatas.json"
 
 function App() {
-  const[data, setData] = useState([{}])
+  const [data, setData] = useState([{}])
+  const [profileData, setProfileData] = useState(null)
+  
+  function getData() {
+    axios({
+      method: "GET",
+      url:"/userList",
+    })
+    .then((response) => {
+      const res =response.data
+      setProfileData(({
+        profile_name: res.name,
+        userId: res.userId,
+        userPW: res.password,}))
+    }).catch((error) => {
+      if (error.response) {
+        console.log(error.response)
+        console.log(error.response.status)
+        console.log(error.response.headers)
+        }
+    })}
 
   useEffect(() =>{
     fetch("/members").then(
@@ -15,14 +38,29 @@ function App() {
           console.log(data)
         }
     )
+    
+
   }, [])
+  
 
   return (
+    
     <div className="App">
       <h1>Projects</h1>
       <div className="content">
         <Projects></Projects>
       </div>
+      {/* //testing from here */}
+      {/* new line start*/}
+      <button onClick={getData}>CheckUserButton</button>
+       {profileData && <div>
+             <p>User name: {profileData.profile_name}</p>
+             <p>User ID: {profileData.userId}</p>
+             <p>User password: {profileData.userPW}</p>
+           </div>
+       }
+        {/* end of new line */}
+     
     </div>
   );
 }
@@ -40,6 +78,8 @@ function Projects({}) {
   }
 
   return (
+    
+    
     <table>
       <thead>
         <tr>
@@ -51,6 +91,7 @@ function Projects({}) {
         </tr>
       </thead>
       <tbody>
+        
         <tr>
           <td>Project Name 1</td>
           <td>HWSet1 0/100 <input type= "text" placeholder = "Enter Qty" name="Project1"/><button theme="gray">Check In</button><button theme="gray">Check Out</button></td>
@@ -58,6 +99,9 @@ function Projects({}) {
           <td><button theme="gray" onClick = {clickMe}>Join</button></td>
           <td><button theme="gray" onClick = {clickMe}>Leave</button></td>
         </tr>
+        <div className="App">
+           
+        </div>
         <tr>
           <td>Project Name 2</td>
           <td>HWSet1 0/100 <input type= "text" placeholder = "Enter Qty" name="Project1"/><button theme="gray">Check In</button><button theme="gray">Check Out</button></td>
@@ -77,5 +121,4 @@ function Projects({}) {
     </table>
   );
 }
-
 export default App;

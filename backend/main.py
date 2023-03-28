@@ -97,11 +97,20 @@ def fetchProject():
     #TODO query mongo db for project that has both
     return
 
-@main.route("/members")
-def members():
-    return {"members": ["Member1","Member2","Member3"]}   
+@main.route('/userList')
+def userList():
+    response_body = {
+        "name" : "exampleName",
+        "userId": "exampleUserID",
+        "password" :"examplePassword"
+        
+    }
+    return response_body
 
 @main.route('/api/data')
 def get_data():
     data = {'message': 'Hello from the backend!'}
     return jsonify(data)
+
+if __name__ == "__main__":
+    main.run(debug = True)

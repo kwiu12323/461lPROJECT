@@ -1,14 +1,17 @@
 from typing import TypedDict
+from typing import List
 import bson
 
 
 class User(TypedDict):
     username: str
-    userID: str
+    userId: str
     password: str
 
 class Project(TypedDict):
-    name: str
-    userID: str
+    projectName: str
     projectId: str
     descpiption: str
+    hwQty: str
+    capacity: str
+    users: List

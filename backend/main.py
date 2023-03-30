@@ -10,6 +10,8 @@ PASSWORD = "password"
 PROJECTID = "projectId"
 PROJECTNAME = "projectName"
 DESCRIPTION = "description"
+USERS = "users"
+FAILED = {"result" : "Failed"}
 
 @main.route('/')
 def index():    #this is temporary, im just adding a new user to the database to see if mongodb and backend is connected
@@ -29,73 +31,142 @@ def signup():
     data = request.get_json() # body content
     #username = encrypt(data[USERNAME]) #
     username = data[USERNAME]
-    userID = encrypt(data[USERID])
+    userId = encrypt(data[USERID])
     password = encrypt(data[PASSWORD])
-    user = User(username=username, userID=userID, password=password)
+    user = User(username=username, userId=userId, password=password)
     user_collection = mongo.db.users
     result = user_collection.insert_one(user)
     if result.inserted_id:
-        return "Success"
-
-    '<h1>Added a User!</h1>'
-     # TODO: HIT mongo db 
-    # user_collection = mongo.db.users
-    # user_collection.insert_one(user)
-    #TODO: return json of user object
+        return {"result": "Success"}
+    return FAILED
     
 
 
 #
 # SIGNIN GET URL PARAMETERS:
-#  ?userId=<userId>&password: <password>
+#  ?userId=<userId>&password=<password>
 #  
 @main.route('/signin', methods=['GET'])
 def signin():
-    userID = encrypt(request.args.get(USERID))
+    print("here")
+    userId = encrypt(request.args.get(USERID))
     password = encrypt(request.args.get(PASSWORD))
+    print(userId, password)
     # TODO: HIT mongo db 
-    # user_collection = mongo.db.users
-    # user = user_collection.find_one({USERID: userID, PASSWORD: password})
-    return 
+    print("here")
+    users = mongo.db.users
+    user = users.find_one({USERID: userId})
+    print(user)
+    if(user != None):
+        return {"result": "Sucess"}
+    return FAILED
 
 
 #
 # CREATE PROJECT POST BODY CONTENTS:
-# { projectname: <name>
-#   projectId: <projectId>
-#   description: <description>
+# { projectname: <name>,
+#   projectId: <projectId>,
+#   description: <description>,
 #   userId: <userid>
 #  }
 #
 @main.route('/create-project', methods=['POST'])
 def createProject():
     data = request.get_json() # body content
-    
+    print(data)
     projectName = data[PROJECTNAME]
     projectId = data[PROJECTID]
     description = data[DESCRIPTION]
-    project = Project(projectName = projectName, projectId=projectId, descpiption=description)
+    userId = encrypt(data[USERID])
+    project = Project(projectName = projectName, projectId=projectId, descpiption=description, hwQty=0, capacity=100, users=[userId])
 
-    user_collection = mongo.db.Project1
-    result = user_collection.insert_one(project)
+    project_collection = mongo.db.projects
+    result = project_collection.insert_one(project)
     if result.inserted_id:
-        return "Success, added a project"
-    
-    '<h1>Added a Project!</h1>'
-    # TODO: HIT mongo db
-    
+        return {"result" : "Success"}
+        
 
 #
 # FETCH PROJECT GET URL PARAMETERS:
 # ?userId=<userId>&projectId: <projectId>
 #
-@main.route('/fetch-project', methods=['GET'])
+@main.route('/fetch-projects', methods=['GET'])
 def fetchProject():
     ## see if user signedin has project with project id
-    userID = encrypt(request.args.get(USERID))
-    projectID = encrypt(request.args.get(PROJECTID))
     #TODO query mongo db for project that has both
-    return
+    project_collection = mongo.db.projects.find()
+    projects = {}
+    for ind, doc in enumerate(project_collection):
+        print(doc)
+        del doc["_id"]
+        projects[ind] = doc
+    return projects
+
+
+#
+# JOIN PROJECT POST BODY CONTENTS:
+# { 
+#   projectId: <projectId>
+#   userId: <userId>
+#  }
+#
+@main.route('/join-project', methods=['POST'])
+def joinProject():
+    data = request.get_json() # body content
+    print(data)
+    projectId = data[PROJECTID]
+    userId = encrypt(data[USERID])
+    project_collection = mongo.db.projects
+    project = project_collection.find_one({PROJECTID: projectId})
+    if project is None:
+        return FAILED
+    projectUsers = project["users"]
+    print(projectUsers)
+    if userId in projectUsers:
+        return FAILED
+    projectUsers.append(userId)
+    print(projectUsers)
+    result = project_collection.update_one(
+        {PROJECTID: projectId},
+        {"$set":
+            {USERS: projectUsers}
+        }                             
+    )
+    print(result)
+    if result.acknowledged:
+        return {"result" : "Success"}
+    
+#
+# Leave PROJECT POST BODY CONTENTS:
+# { 
+#   projectId: <projectId>
+#   userId: <userId>
+#  }
+#
+@main.route('/leave-project', methods=['POST'])
+def leaveProject():
+    data = request.get_json() # body content
+    print(data)
+    projectId = data[PROJECTID]
+    userId = encrypt(data[USERID])
+    project_collection = mongo.db.projects
+    project = project_collection.find_one({PROJECTID: projectId})
+    projectUsers = project["users"]
+    if userId in projectUsers:
+        projectUsers.remove(userId)
+        print(projectUsers)
+        result = project_collection.update_one(
+            {PROJECTID: projectId},
+            {"$set":
+                {USERS: projectUsers}
+            }                             
+        )
+        print(result)
+        if result.acknowledged:
+            return {"result" : "Success"}
+        
+    return FAILED
+
 
 @main.route('/userList')
 def userList():

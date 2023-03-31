@@ -7,7 +7,7 @@ import ProjectButtons from '../ProjectButtons/ProjectButtons'
 export default class Project extends React.Component{
     state = {
         value:  0,
-        qty:    this.props.quantity,
+        qty:  this.props.quantity,
         qty1: this.props.q2,
         qty2: "0",
     }
@@ -20,38 +20,57 @@ export default class Project extends React.Component{
                 
             }));
         }
-        this.setState(state => ({
-            value: e.target.value + state.value,
+        if(e.key === '1' || e.key==='2' || e.key==='3' || e.key==='4' || e.key==='5' || e.key==='6' || e.key==='7' || e.key==='8' || e.key==='9' || e.key==='0'){
             
-        }));
-        
+            this.setState(state => ({
+            
+            value: e.target.value + e.key
+            
+            }));
+        }
+    }
         
         
 
-    }
+    
     
     callback = (childData) => {
-        alert(this.state.value)
-        if(childData === "b1"){}
+
+        
+        if(childData === "b1"){
         this.setState(state =>({
-            qty: state.qty + state.value
+            qty: parseInt(state.qty) + parseInt(state.value)
         }))
-        if(childData === "b2"){}
+        }
+        if(childData === "b2"){
         this.setState(state =>({
-            qty1: state.qty1 -state.value
+            qty1: parseInt(state.qty1) +parseInt(state.value)
         }))
-        if(childData === "b3"){}
-        this.setState(state =>({
-            qty: state.qty + state.value
-        }))
-        if(childData === "b1"){}
-        this.setState(state =>({
-            qty: state.qty1 -state.value
-        }))
-        this.setState(state => ({
-            value: 0,
+        }
+        if(childData === "b3"){
             
-        }));
+            if(parseInt(this.state.qty) >= parseInt(this.state.value)){
+                this.setState(state =>({
+            
+                    qty: parseInt(state.qty) - parseInt(state.value)
+                }))
+        
+            } 
+            else{
+                alert("too much")
+            } 
+        }     
+        if(childData === "b4"){
+            if(parseInt(this.state.qty1) >= parseInt(this.state.value)){
+                this.setState(state =>({
+                    qty1: parseInt(state.qty1) -parseInt(state.value)
+                }))
+        
+            }
+            else{
+                alert("too much");
+            }
+        }    
         
     }
     
@@ -103,7 +122,7 @@ export default class Project extends React.Component{
                 HWSet2: {this.state.qty1}
             </p>
             </div>
-            <TextField id='qtyBox'  value={this.value} onKeyDown={this.enterhandler} 
+            <TextField id='qtyBox'  value={this.state.value} onKeyDown={this.enterhandler} 
             label="qty"
             />
             <ProjectButtons pcallBack ={this.callback} joinstate="join"></ProjectButtons>

@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 import data from "./projectsdatas.json"
-
+import ProjectsPage from "./Components/ProjectsPage/ProjectsPage"
 function App() {
   const [data, setData, setHwsetsQty, hwsets, setHwsets] = useState([{}])
   const [profileData, setProfileData, ] = useState(null)
@@ -47,7 +47,7 @@ function App() {
     <div className="App">
       <h1>Projects</h1>
       <div className="content">
-        <Projects></Projects>
+        <ProjectsPage></ProjectsPage>
       </div>
       <HWSets></HWSets>
       

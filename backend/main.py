@@ -16,7 +16,7 @@ FAILED = {"result" : "Failed"}
 @main.route('/')
 def index():    #this is temporary, im just adding a new user to the database to see if mongodb and backend is connected
     user_collection = mongo.db.users
-    user_collection.insert_one({"name" : "testing name123"})
+    user_collection.insert_one({"name" : "testing name444999"})
     return '<h1>Backend! Added a name to the database</h1>'
 
 #
@@ -167,6 +167,48 @@ def leaveProject():
         
     return FAILED
 
+#Checkin
+# @main.route('/create-project', methods=['POST'])
+# def createProject():
+#     data = request.get_json() # body content
+#     print(data)
+#     projectName = data[PROJECTNAME]
+#     projectId = data[PROJECTID]
+#     description = data[DESCRIPTION]
+#     userId = encrypt(data[USERID])
+#     project = Project(projectName = projectName, projectId=projectId, descpiption=description, hwQty=0, capacity=100, users=[userId])
+
+#     project_collection = mongo.db.projects
+#     result = project_collection.insert_one(project)
+#     if result.inserted_id:
+#         return {"result" : "Success"}
+
+# @main.route('/checkin', methods=['POST'])
+# def checkin():
+#     data = request.get_json()
+#     print(data)
+#     max_quantity = 100
+
+@main.route('/create-HWSet')
+def createHWSet():
+    # data = request.get_json()
+    # name = data['name']
+    # maxQuantity = data['maxQuantity']
+    # HW_collection = mongo.db.HWSets
+    #     user_collection = mongo.db.users
+    # user_collection.insert_one({"name" : "testing name444999"})   
+    #hwset = {'name' : name, 'maxQuantity' : maxQuantity}
+    # hwset = {'name' : "HWSet1", 'maxQuantity' : 100}
+    # result = HW_collection.insert_one(hwset)
+    #return jsonify({'message': 'HWSet created successfully', 'id': str(result.inserted_id)})
+    # if result.inserted_id:
+    #     return {"result" : "Success"}
+    user_collection = mongo.db.HWSets
+    hwset = {'name' : "HWSet1",  'maxQuantity' : 100, 'qty':0}
+    user_collection.insert_one(hwset)
+    return '<h1>HWSET ADDED! Added a name to the database</h1>'
+
+
 
 @main.route('/userList')
 def userList():
@@ -177,6 +219,33 @@ def userList():
         
     }
     return response_body
+
+@main.route('/api/hwsets')
+def get_hwsets():
+    HW_collection = mongo.db.HWSets
+    hwsets = []
+    for hwset in HW_collection.find():
+        hwsets.append({'_id': str(hwset['_id']), 'name': hwset['name'], 'maxQuantity': hwset['maxQuantity'], 'qty': hwset['qty']})
+    response_body = {
+        'hwsets': hwsets
+        
+    }
+    return response_body
+
+def get_hwsets():
+    # Retrieve hardware sets data from MongoDB
+    HW_collection = mongo.db.HWSets
+    hwsets = []
+    for hwset in HW_collection.find():
+        hwsets.append({
+            '_id': hwset['_id'],
+            'name': hwset['name'],
+            'maxQuantity': hwset['maxQuantity'],
+            'qty': hwset['qty']
+        })
+    
+    # Return JSON response with hardware sets data
+    return jsonify({'hwsets': hwsets})
 
 @main.route('/api/data')
 def get_data():

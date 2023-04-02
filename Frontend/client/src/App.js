@@ -56,8 +56,10 @@ function App() {
     <div className="App">
       <h1>Projects</h1>
       <div className="content">
-        <ProjectsPage showValue = {isLoggedIn}></ProjectsPage>
+        {/* <ProjectsPage showValue = {isLoggedIn}></ProjectsPage> */}
+        
       </div>
+      <ProjectsPage></ProjectsPage>
       <HWSets></HWSets>
       
       <ShowHWSet1></ShowHWSet1>

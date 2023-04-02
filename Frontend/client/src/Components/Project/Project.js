@@ -121,7 +121,7 @@
                 </div>
                     <TextField id='qtyBox'  onKeyDown={this.enterhandler}
                     label="qty"
-                    value={this.state.value}
+                    //value={this.state.value}
                     />
                     <ProjectButtons joinstate="join" quantity={this.state.value}></ProjectButtons>
                 </Box>

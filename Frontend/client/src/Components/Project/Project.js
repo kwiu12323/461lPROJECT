@@ -4,6 +4,9 @@ import React, { useEffect, useState } from 'react'
 import './Project.css'
 import { TextField } from '@mui/material'
 import ProjectButtons from '../ProjectButtons/ProjectButtons'
+import App from '../../App'
+import axios from "axios";
+
 export default class Project extends React.Component{
     state = {
         value:  0,
@@ -76,57 +79,137 @@ export default class Project extends React.Component{
     
     render(){
         return(
-        <Box  sx={{
-            m: 2,
-            display: "flex",
-            backgroundColor: "white",
-            color: "white",
-            height: "70px",
-            width: "1000px",
-            padding: "16px",
-            "&:hover": {
-                backgroundColor: "red"
-            },
-        }}
-        border={1} borderColor="black"  
-         >
-        
-            <p sx={{
-                color: "black",
-            }}
-            >
-                {this.props.projectname}
-            </p>
-            <p sx={{
-                color: "black",
-            }}
-            >
-                {this.props.users}
-            </p>
+            <Box sx={{
+                m: 1,
+                display: "flex",
+                backgroundColor: "white",
+                color: "white",
+                height: "70px",
+                width: "1000px",
+                padding: "5px",
+                "&:hover": {
+                  backgroundColor: "red"
+                },
+              }} border={1} borderColor="black">
+                <p sx={{
+                  color: "black",
+                }}>
+                  {this.props.projectname}
+                </p>
+                <p sx={{
+                  color: "black",
+                }}>
+                  {this.props.users}
+                </p>
 
 
-            <div sx={{
-                display: "block",
+                <div sx={{
+                display: "flex",
             }}>
-            <p sx={{
-                color: "black",
-            }}
-            >
-                HWSet1: {this.state.qty}
-            </p>
-            <p sx={{
-                color: "black",
-            }}
                 
+            <p sx={{
+                color: "black",
+            }}
             >
-                HWSet2: {this.state.qty1}
+                <ShowHWSet1/>
             </p>
+            <p sx={{
+                color: "black",
+            }}
+            >
+                <ShowHWSet2/>
+            </p>
+            
             </div>
-            <TextField id='qtyBox'  value={this.state.value} onKeyDown={this.enterhandler} 
-            label="qty"
-            />
-            <ProjectButtons pcallBack ={this.callback} joinstate="join"></ProjectButtons>
-        </Box>
+                <TextField id='qtyBox' value={this.state.value} onKeyDown={this.enterhandler}
+                  label="qty"
+                />
+                <ProjectButtons pcallBack={this.callback} joinstate="join"></ProjectButtons>
+              </Box>
         )
     }
 }
+function HWSets() {
+    const [hwsets, setHWSets] = useState([]);
+   
+  
+    useEffect(() => {
+      axios.get('http://localhost:5000/api/hwsets').then(response => {
+        setHWSets(response.data.hwsets);
+      });
+    }, []);
+    
+    
+  
+    return (
+      <span>
+        <h2>Hardware Sets</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Max Quantity</th>
+              <th>Current Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {hwsets.map(hwset => (
+                
+              <tr key={hwset._id}>
+                <td>{hwset.name}</td>
+                <td>{hwset.maxQuantity}</td>
+                <td>{hwset.qty}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <style>
+        {`
+          td, th {
+            color: black;
+          }
+        `}
+      </style>
+      </span>
+    );
+  }
+  function ShowHWSet1() {
+    const [hwsets, setHWSets] = useState([]);
+  
+    useEffect(() => {
+      axios.get('http://localhost:5000/api/hwsets').then(response => {
+        setHWSets(response.data.hwsets.filter(hwset => hwset.name === "HWSet1"));
+      });
+    }, []);
+  
+    return (
+      <span>
+        {hwsets.map(hwset => (
+          <tr key={hwset._id}>
+            <p sx={{ marginBottom: "0.2rem" }}>{hwset.name} : {hwset.qty}/{hwset.maxQuantity}</p>
+          </tr>
+        ))}
+      </span>
+    );
+  }
+function ShowHWSet2() {
+    const [hwsets, setHWSets] = useState([]);
+  
+    useEffect(() => {
+      axios.get('http://localhost:5000/api/hwsets').then(response => {
+        setHWSets(response.data.hwsets.filter(hwset => hwset.name === "HWSet2"));
+      });
+    }, []);
+  
+    return (
+      <span>
+            {hwsets.map(hwset => (
+              <tr key={hwset._id}>
+                <p sx={{ marginBottom: "0.2rem" }}>{hwset.name} : {hwset.qty}/{hwset.maxQuantity}</p>
+  
+              </tr>
+            ))}
+       
+      </span>
+    );
+  }

@@ -3,19 +3,19 @@ import React from 'react'
 import { Button, ButtonGroup } from '@mui/material'
 export default class ProjectButtons extends React.Component{
     sendBack = () => {
-        alert('sending back')
+        
         this.props.pcallBack("b1");
     }
     sendBack2 = () => {
-        alert('sending back')
+        
         this.props.pcallBack("b2");
     }
     sendBack3 = () => {
-        alert('sending back')
+       
         this.props.pcallBack("b3");
     }
     sendBack4 = () => {
-        alert('sending back')
+        
         this.props.pcallBack("b4");
     }
     render(){

@@ -1,14 +1,18 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
+import SignUp from "./Functions/SignUp"
+import Login from "./Functions/Login"
 
 
 import data from "./projectsdatas.json"
 import ProjectsPage from "./Components/ProjectsPage/ProjectsPage"
 function App() {
-  const [data, setData, setHwsetsQty, hwsets, setHwsets] = useState([{}])
+  const [data, setData, setHwsetsQty, loginInfo,  hwsets, setHwsets] = useState([{}])
   const [profileData, setProfileData, ] = useState(null)
-  
+  callback(() => {
+    alert("hello");
+  }, );
   function getData() {
     axios({
       method: "GET",
@@ -39,14 +43,16 @@ function App() {
         })
         .catch(error => console.error(error));
     }, []);
-  
-
+    
   return (
     
     
     <div className="App">
+      
       <h1>Projects</h1>
       <div className="content">
+        <Login pcallBack={this.callback}></Login>
+        <SignUp></SignUp>
         <ProjectsPage></ProjectsPage>
       </div>
       <HWSets></HWSets>

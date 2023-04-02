@@ -5,8 +5,6 @@ import SignUp from "./Functions/SignUp"
 import Login from "./Functions/Login"
 import LoginForm from './Functions/LoginForm';
 import ProjectButtons from './Components/ProjectButtons/ProjectButtons';
-
-
 import data from "./projectsdatas.json"
 import ProjectsPage from "./Components/ProjectsPage/ProjectsPage"
 function App() {
@@ -50,22 +48,15 @@ function App() {
         })
         .catch(error => console.error(error));
     }, []);
-    
+  
+
   return (
     
     
     <div className="App">
-      <h1>{isLoggedIn ? "Welcome!" : "Please log in"}</h1>
-      {isLoggedIn ? (
-        <button onClick={handleLogout}>Log out</button>
-      ) : (
-        <LoginForm onLogin={handleLogin} />
-      )}
       <h1>Projects</h1>
       <div className="content">
-        {/* <Login pcallBack={this.callback}></Login>
-        <SignUp></SignUp> */}
-        <ProjectsPage></ProjectsPage>
+        <ProjectsPage showValue = {isLoggedIn}></ProjectsPage>
       </div>
       <HWSets></HWSets>
       

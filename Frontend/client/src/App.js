@@ -4,8 +4,6 @@ import axios from "axios";
 import SignUp from "./Functions/SignUp"
 import Login from "./Functions/Login"
 import LoginForm from './Functions/LoginForm';
-
-
 import data from "./projectsdatas.json"
 import ProjectsPage from "./Components/ProjectsPage/ProjectsPage"
 function App() {
@@ -20,7 +18,7 @@ function App() {
   };
   // callback(() => {
   //   alert("hello");
-  // }, );
+   // }, );
   function getData() {
     axios({
       method: "GET",
@@ -51,22 +49,15 @@ function App() {
         })
         .catch(error => console.error(error));
     }, []);
-    
+  
+
   return (
     
     
     <div className="App">
-      <h1>{isLoggedIn ? "Welcome!" : "Please log in"}</h1>
-      {isLoggedIn ? (
-        <button onClick={handleLogout}>Log out</button>
-      ) : (
-        <LoginForm onLogin={handleLogin} />
-      )}
       <h1>Projects</h1>
       <div className="content">
-        {/* <Login pcallBack={this.callback}></Login>
-        <SignUp></SignUp> */}
-        <ProjectsPage></ProjectsPage>
+        <ProjectsPage showValue = {isLoggedIn}></ProjectsPage>
       </div>
       <HWSets></HWSets>
       

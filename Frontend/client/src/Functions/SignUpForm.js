@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 
-function SignUp() {
+function SignUpForm({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    // make HTTP request to server to validate user's credentials
+    // SEND REQUEST TO BACKEND TO VERIFY LOGIN CREDENTIALS
+    // right now I assumed that the login is successful if username and password fields are not empty
+    if (username && password) {
+      onLogin();
+    }
   };
 
   return (
@@ -29,9 +32,9 @@ function SignUp() {
         />
       </label>
       <br />
-      <button type="submit">Submit</button>
+      <button type="submit">Log in</button>
     </form>
   );
 }
 
-export default SignUp;
+export default SignUpForm;

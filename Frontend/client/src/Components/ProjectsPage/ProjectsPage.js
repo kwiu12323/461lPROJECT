@@ -16,9 +16,9 @@ export default class ProjectsPage extends React.Component{
             display: "block",
             backgroundColor: "white",
             color: "white",
-            height: "800px",
+            height: "300px",
             width: "1200px",
-            padding: "16px",
+            padding: "20px",
             "&:hover": {
                 padding: "32px"
             },
@@ -26,18 +26,12 @@ export default class ProjectsPage extends React.Component{
         border={1} borderColor="black"  
          >
         
-            <p sx={{
-                color: "black",
-            }}
-            >this is a box</p>
-            <HWSets></HWSets>
-            <p>space</p>
-            <ShowHWSet1></ShowHWSet1>
+           
             
             
+            <Project projectname="Project2" users="na" quantity q1></Project>
             <Project projectname="Project2" users="na" quantity q2></Project>
-            <Project projectname="Project2" users="na" quantity="10/100" q2="20/100"></Project>
-            <Project projectname="Project3" users="na" quantity="0/100" q2="30/100"></Project>
+            <Project projectname="Project3" users="na" quantity q2></Project>
             
         </Box>
         )

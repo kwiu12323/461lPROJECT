@@ -252,5 +252,17 @@ def get_data():
     data = {'message': 'Hello from the backend!'}
     return jsonify(data)
 
+@main.route('/update_quantity', methods=['POST'])
+def update_quantity():
+    data = request.json
+    quantity = data['quantity']
+    quantity = int(quantity)
+    HW_collection = mongo.db.HWSets
+    HW_collection.update_one({'name' : 'HWSet1'}, {'$inc': {'qty': quantity}})
+    # Here you can add the logic to update your MongoDB database
+    # using the `quantity` value that was passed in the request
+    return 'Quantity updated successfully'
+
+
 if __name__ == "__main__":
     main.run(debug = True)

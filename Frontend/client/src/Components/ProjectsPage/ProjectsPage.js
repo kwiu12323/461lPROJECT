@@ -29,7 +29,7 @@ export default class ProjectsPage extends React.Component{
            
             
             
-            <Project projectname="Project2" users="na" quantity q1></Project>
+            <Project projectname="Project1 " users="na" quantity q1></Project>
             <Project projectname="Project2" users="na" quantity q2></Project>
             <Project projectname="Project3" users="na" quantity q2></Project>
             

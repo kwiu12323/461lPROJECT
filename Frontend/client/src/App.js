@@ -4,6 +4,7 @@ import axios from "axios";
 import SignUp from "./Functions/SignUp"
 import Login from "./Functions/Login"
 import LoginForm from './Functions/LoginForm';
+import ProjectButtons from './Components/ProjectButtons/ProjectButtons';
 import data from "./projectsdatas.json"
 import ProjectsPage from "./Components/ProjectsPage/ProjectsPage"
 function App() {
@@ -16,9 +17,7 @@ function App() {
   const handleLogout = () => {
     setIsLoggedIn(false);
   };
-  // callback(() => {
-  //   alert("hello");
-   // }, );
+
   function getData() {
     axios({
       method: "GET",
@@ -57,8 +56,10 @@ function App() {
     <div className="App">
       <h1>Projects</h1>
       <div className="content">
-        <ProjectsPage showValue = {isLoggedIn}></ProjectsPage>
+        {/* <ProjectsPage showValue = {isLoggedIn}></ProjectsPage> */}
+        
       </div>
+      <ProjectsPage></ProjectsPage>
       <HWSets></HWSets>
       
       <ShowHWSet1></ShowHWSet1>
@@ -230,4 +231,30 @@ function Projects({}) {
     </table>
   );
 }
+
+const sendCheckinToBackend = async (data) => {
+  const response = await fetch('/api/checkin', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+  
+  const result = await response.json();
+  return result;
+};
+
+export { sendCheckinToBackend };
+
+
+
+
+
+
+
+
+
+
+
 export default App;

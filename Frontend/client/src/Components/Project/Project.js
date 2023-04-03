@@ -123,7 +123,7 @@
                     label="qty"
                     //value={this.state.value}
                     />
-                    <ProjectButtons joinstate="join" quantity={this.state.value}></ProjectButtons>
+                    <ProjectButtons joinstate="join123" quantity={this.state.value}></ProjectButtons>
                 </Box>
             )
         }

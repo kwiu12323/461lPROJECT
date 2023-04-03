@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from .extensions import mongo
-from .cipher import encrypt
+from .cipher import encrypt,decrypt
 from .models import User, Project
 main = Blueprint('main', __name__)
 
@@ -16,9 +16,9 @@ SUCCESS = {"result" : "Success"}
 
 @main.route('/')
 def index():    #this is temporary, im just adding a new user to the database to see if mongodb and backend is connected
-    user_collection = mongo.db.users
-    user_collection.insert_one({"name" : "testing name444999"})
-    return '<h1>Backend! Added a name to the database</h1>'
+    # user_collection = mongo.db.users
+    # user_collection.insert_one({"name" : "testing name444999"})
+    return '<h1>Backend! </h1>'
 
 #
 # SIGNUP POST BODY CONTENTS:
@@ -51,12 +51,12 @@ def signup():
 #  
 @main.route('/signin', methods=['GET'])
 def signin():
-    print("here")
+ 
     userId = encrypt(request.args.get(USERID))
     password = encrypt(request.args.get(PASSWORD))
     print(userId, password)
     # TODO: HIT mongo db 
-    print("here")
+ 
     users = mongo.db.users
     user = users.find_one({USERID: userId})
     print(user)
@@ -64,7 +64,17 @@ def signin():
         return {"result": "Success",
                 "enc_user_id": userId}
     return FAILED
+@main.route("/login", methods=["POST"])
+def login():
+    username = request.json["username"]
+    username = encrypt(username)
+    password = encrypt(request.json["password"])
+    user = mongo.db.users.find_one({"username": username, "password": password})
 
+    if user is None:
+        return jsonify({"error": "Invalid username or password"}), 401
+    else:
+        return jsonify({"message": "Logged in successfully!"}), 200
 
 #
 # CREATE PROJECT POST BODY CONTENTS:
@@ -215,7 +225,7 @@ def createHWSet():
     user_collection = mongo.db.HWSets
     hwset = {'name' : "HWSet1",  'maxQuantity' : 100, 'qty':0}
     user_collection.insert_one(hwset)
-    return '<h1>HWSET ADDED! Added a name to the database</h1>'
+    return '<h1>HWSET ADDED!</h1>'
 
 
 

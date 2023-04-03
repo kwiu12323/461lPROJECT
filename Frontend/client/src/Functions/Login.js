@@ -1,69 +1,52 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { getActiveElement } from "@testing-library/user-event/dist/utils";
-function Login({ showValue, callback }) {
+
+function Login({showValue, callback, callback1}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const state = {
-    button: 1,
-  };
-
   const handleSubmit = (event) => {
-    const uID = event.target.userName.value;
-    const password = event.target.password.value;
     event.preventDefault();
-    if (state.button === 1) {
-      axios({
-        method: "GET",
-        url:
-          "http://127.0.0.1:5000/signin?userId=" +
-          uID +
-          "&password=" +
-          password,
-      })
-        .then((response) => {
-          const res = response.data;
-          console.log(res);
-          if (res["result"] != "Failed") {
-            callback(uID);
-          } else {
-            alert("Unable to signin");
-          }
-        })
-        .catch((error) => {
-          if (error.response) {
-            alert("error");
-            console.log(error.response);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-          }
-        });
-    } else {
-      axios
-      .post("/signup", {
-        userId: uID,
+    axios({
+      method: "GET",
+      url:"http://localhost:5000/login",
+      data: {
+        username: username,
         password: password,
-      })
-      .then((response) => {
-        const res = response.data;
-        if (res["result"] != "Failed") {
-          callback(uID);
-        } else {
-          alert("Unable to signup");
+      },
+    })
+    .then((response) => {
+      alert(response.data)
+      alert("hit backend");
+      
+    }).catch((error) => {
+      if (error.response) {
+        alert("error")
+        console.log(error.response)
+        console.log(error.response.status)
+        console.log(error.response.headers) 
         }
-      })
-      .catch((err) => {
-        alert("Unable to signup try with valid fields");
-        console.log(err);
-      });
-    }
+    })
+    const uID = event.target.userName.value
+    callback(uID);
+    // make HTTP request to server to validate user's credentials
+  };
+  const handleRegister = (event) => {
+    
+    callback1();
+
   };
 
-
+  useEffect(() => {
+    axios.get("http://127.0.0.1:5000/signin?userId=userid&password=abc123").then((data) => {
+     alert("hello");
+    });
+  }, []);
+  
   if (showValue === false) {
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}> 
         <label>
           Username:
           <input
@@ -86,14 +69,11 @@ function Login({ showValue, callback }) {
           />
         </label>
         <br />
-        <button type="submit" onClick={() => (state.button = 1)}>
-          Submit
-        </button>
-        <button type="register" onClick={() => (state.button = 2)}>
-          Register
-        </button>
+        <button type="submit">Submit</button>
+        <button type="button" onClick={handleRegister}>Register</button>
       </form>
     );
   }
 }
+
 export default Login;

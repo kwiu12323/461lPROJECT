@@ -10,6 +10,7 @@ function LoginForm({ onLogin, callback1  }) {
     if (username && password) {
       onLogin();
     }
+    
   };
   
   const handleRegister = (event) => {

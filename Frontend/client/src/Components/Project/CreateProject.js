@@ -1,71 +1,74 @@
-import Box from '@mui/material/Box'
-import { height,  } from '@mui/system'
-import React, { useEffect, useState } from 'react'
-import './Project.css'
-import { TextField } from '@mui/material'
-import ProjectButtons from '../ProjectButtons/ProjectButtons'
-import App from '../../App'
+import Box from "@mui/material/Box";
+import { height } from "@mui/system";
+import React, { useEffect, useState } from "react";
+import "./Project.css";
+import { TextField } from "@mui/material";
+import ProjectButtons from "../ProjectButtons/ProjectButtons";
+import App from "../../App";
 import axios from "axios";
 
-export default class CreateProject extends React.Component{
-    state = {
-        projectName: "",
-        projectId: "",
-        description: "",
-    };
+export default class CreateProject extends React.Component {
+  state = {
+    projectName: "",
+    projectId: "",
+    description: "",
+  };
 
-    createProject() {
-        axios.post('/create-project', {
-            "projectName": this.state.projectName,
-            "projectId": this.state.projectId,
-            "description": this.state.description,
-            "userId": "sdfsdf"
-          })
-          .then(res => {
-            console.log(res.data)
-            window.location.reload();
-          })
-          .catch(err => {
-            console.log(err)
-          })
-    }
+  createProject() {
+    axios
+      .post("/create-project", {
+        projectName: this.state.projectName,
+        projectId: this.state.projectId,
+        description: this.state.description,
+        userId: "sdfsdf",
+      })
+      .then((res) => {
+        console.log(res.data);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
-    setProjectName(name) {
-        this.setState(state => ({
-            projectName: name
-        }))
-    }
+  setProjectName(name) {
+    this.setState((state) => ({
+      projectName: name,
+    }));
+  }
 
-    setProjectId(projectId) {
-        this.setState(state => ({
-            projectId: projectId
-        }))
-    }
+  setProjectId(projectId) {
+    this.setState((state) => ({
+      projectId: projectId,
+    }));
+  }
 
-    setProjectDescription(description) {
-        this.setState(state => ({
-            description: description
-        }))
-    }
+  setProjectDescription(description) {
+    this.setState((state) => ({
+      description: description,
+    }));
+  }
 
-    render(){
-        //  if(this.props.showValue === true){
-        
-        return(
-        <Box  sx={{
-            p: 2,
-            display: "block",
-            backgroundColor: "white",
-            color: "white",
-            height: "20px ",
-            width: "1200px",
-            padding: "20px",
-            "&:hover": {
-                padding: "32px"
-            },
+  render() {
+    //  if(this.props.showValue === true){
+
+    return (
+      <Box
+        sx={{
+          p: 2,
+          display: "block",
+          backgroundColor: "white",
+          color: "white",
+          height: "20px ",
+          width: "1200px",
+          padding: "20px",
+          "&:hover": {
+            padding: "32px",
+          },
         }}
-        border={1} borderColor="black"  
-        >
+        border={1}
+        borderColor="black"
+      >
         <input
           type="text"
           value={this.state.projectName}
@@ -84,22 +87,27 @@ export default class CreateProject extends React.Component{
           placeholder="Description"
           onChange={(event) => this.setProjectDescription(event.target.value)}
         />
-        <button onClick={() => {
-            if(this.state.projectName === "" || this.state.projectId === "" || this.state.description === "") {
-                alert("Please fill out all project creation fields")
+        <button
+          onClick={() => {
+            if (
+              this.state.projectName === "" ||
+              this.state.projectId === "" ||
+              this.state.description === ""
+            ) {
+              alert("Please fill out all project creation fields");
             } else {
-                this.createProject()
+              this.createProject();
             }
-        }}> Create Project </button>
+          }}
+        >
+          {" "}
+          Create Project{" "}
+        </button>
         {/* <button onClick={
             this.createProject
         }>Create Project</button> */}
-
-
-            
-        </Box>
-        )
-      //  }
-      }
-
+      </Box>
+    );
+    //  }
+  }
 }

@@ -2,19 +2,28 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { getActiveElement } from "@testing-library/user-event/dist/utils";
+import { height, Stack } from "@mui/system";
+
 function Login({showValue, callback, callback1}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (event) => {
+    const uID = event.target.userName.value
+    const password = event.target.password.value
     event.preventDefault();
     axios({
       method: "GET",
-      url:"http://127.0.0.1:5000/signin?userId=userid&password=abc123",
+      url:"http://127.0.0.1:5000/signin?userId=" + uID + "&password=" + password,
     })
     .then((response) => {
       const res =response.data
-      alert("hit backend");
+      console.log(res)
+      if(res["result"] != "Failed"){
+        callback(uID)
+      } else {
+        alert("Unable to signin");
+      }
       
     }).catch((error) => {
       if (error.response) {
@@ -24,13 +33,26 @@ function Login({showValue, callback, callback1}) {
         console.log(error.response.headers)
         }
     })
-    const uID = event.target.userName.value
-    callback(uID);
-    // make HTTP request to server to validate user's credentials
   };
+
   const handleRegister = (event) => {
-    
-    callback1();
+    const uID = event.target.userName.value
+    const password = event.target.password.value
+    axios.post("/sign-up", {
+        'userId': uID,
+        'password': password
+      })
+      .then((response) => {
+        const res =response.data
+        if(res["result"] != "Failed"){
+          callback1(uID)
+        } else {
+          alert("Unable to signup");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
   };
 
@@ -41,7 +63,7 @@ function Login({showValue, callback, callback1}) {
   }, []);
   if(showValue === false){
   return (
-    <form onSubmit={handleSubmit} > 
+    <Stack>
       <label>
         Username:
         <input
@@ -64,9 +86,9 @@ function Login({showValue, callback, callback1}) {
         />
       </label>
       <br />
-      <button type="submit" onClick={(event) => handleSubmit}>Submit</button>
-      <button type = "register" onClick={(event) => handleRegister}>Register</button>
-    </form>
+      <button type="submit" onClick={(event) => handleSubmit(event)}>Submit</button>
+      <button type = "register" onClick={(event) => handleRegister(event)}>Register</button>
+    </Stack>
   );
 }
 }

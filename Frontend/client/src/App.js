@@ -16,7 +16,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const handleLogin = useCallback((event) => {
     setuID(event)
-    alert(event);
+    alert("Signed in " + event);
     setIsLoggedIn(true);
   }, []);
   const handleLogout = () => {
@@ -41,10 +41,6 @@ function App() {
         <Login showValue={isLoggedIn} callback={handleLogin}></Login>
       </div>
       <ProjectsPage showValue={isLoggedIn} userId="abc123"></ProjectsPage>
-      <HWSets></HWSets>
-
-      <ShowHWSet1></ShowHWSet1>
-      <ShowHWSet2></ShowHWSet2>
     </div>
     //   <div className="App">
 

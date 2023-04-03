@@ -92,68 +92,70 @@ export default class Project extends React.Component {
       });
   }
   render() {
-    return (
-      <Box
-        sx={{
-          m: 1,
-          display: "flex",
-          backgroundColor: "white",
-          color: "white",
-          height: "150px",
-          width: "1000px",
-          padding: "2px",
-          // "&:hover": {
-          // backgroundColor: "red"
-          // },
-        }}
-        border={1}
-        borderColor="black"
-      >
-        <Stack>
-        <p>Project Name</p>
-        <p>{this.props.projectName}</p>
-        </Stack>
-        <Stack>
-        <p>User List</p>
-        <p>{this.props.users}</p>
-        </Stack>
-        <Stack>
-        <p>Project Id</p>
-        <p>{this.props.projectId}</p>
-        </Stack>
-        <Stack>
-        <p>Project description</p>
-        <p>{this.props.description}</p>
-        </Stack>
-        <div
+    // if (this.props.showValue === true) {
+      return (
+        <Box
           sx={{
+            m: 1,
             display: "flex",
+            backgroundColor: "white",
+            color: "white",
+            height: "150px",
+            width: "1000px",
+            padding: "2px",
+            // "&:hover": {
+            // backgroundColor: "red"
+            // },
           }}
+          border={1}
+          borderColor="black"
         >
-          <ShowHWSet1 />
+          <Stack>
+            <p>Project Name</p>
+            <p>{this.props.projectName}</p>
+          </Stack>
+          <Stack>
+            <p>User List</p>
+            <p>{this.props.users}</p>
+          </Stack>
+          <Stack>
+            <p>Project Id</p>
+            <p>{this.props.projectId}</p>
+          </Stack>
+          <Stack>
+            <p>Project description</p>
+            <p>{this.props.description}</p>
+          </Stack>
+          <div
+            sx={{
+              display: "flex",
+            }}
+          >
+            <ShowHWSet1 />
 
-          {/* <p sx={{
+            {/* <p sx={{
                     color: "black",
                     
                 }}
                 > */}
-          <ShowHWSet2 />
-          {/* </p> */}
-        </div>
-        <TextField
-          id="qtyBox"
-          onKeyDown={this.enterhandler}
-          label="qty"
-          //value={this.state.value}
-        />
-        <ProjectButtons
-          joinstate={this.state.joinstate}
-          quantity={this.state.value}
-          projectId={this.state.projectId}
-          userId={this.state.userId}
-        ></ProjectButtons>
-      </Box>
-    );
+            <ShowHWSet2 />
+            {/* </p> */}
+          </div>
+          <TextField
+            id="qtyBox"
+            onKeyDown={this.enterhandler}
+            label="qty"
+            //value={this.state.value}
+          />
+          <ProjectButtons
+            joinstate={this.state.joinstate}
+            quantity={this.state.value}
+            projectId={this.state.projectId}
+            userId={this.state.userId}
+          ></ProjectButtons>
+        </Box>
+      );
+    // }
   }
 }
 function HWSets() {

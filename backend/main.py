@@ -100,11 +100,13 @@ def createProject():
     description = data[DESCRIPTION]
     userId = encrypt(data["userId"])
     project = Project(projectName = projectName, projectId=projectId, description=description, hwQty=0, capacity=100, users=[userId])
-
     project_collection = mongo.db.projects
-    result = project_collection.insert_one(project)
-    if result.inserted_id:
-        return {"result" : "Success"}
+    project_test = project_collection.find_one({PROJECTID: projectId})
+    if project_test is None:
+        result = project_collection.insert_one(project)
+        if result.inserted_id:
+            return {"result" : "Success"}
+    return FAILED
         
 
 #

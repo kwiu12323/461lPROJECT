@@ -71,8 +71,8 @@ export default class ProjectsPage extends React.Component {
             display: "block",
             backgroundColor: "white",
             color: "white",
-            height: "700px ",
-            width: "1200px",
+            height: "800px ",
+            width: "1500px",
             padding: "20px",
             "&:hover": {
               padding: "32px",

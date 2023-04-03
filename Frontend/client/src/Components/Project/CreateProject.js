@@ -20,7 +20,7 @@ export default class CreateProject extends React.Component {
         userId: this.props.userId
     }))
   }
-  
+
   createProject = () => {
     axios
       .post("/create-project", {
@@ -31,7 +31,11 @@ export default class CreateProject extends React.Component {
       })
       .then((res) => {
         console.log(res.data);
-        window.location.reload();
+        if (res.data["result"] != "Failed") {
+            window.location.reload();
+        } else {
+            alert("Couldn't create project try new project id");
+        }
       })
       .catch((err) => {
         console.log(err);

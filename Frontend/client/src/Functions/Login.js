@@ -1,81 +1,68 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import axios from "axios";
-import { getActiveElement } from "@testing-library/user-event/dist/utils";
-
-
-function Login({showValue, callback, callback1}) {
+function Login({ showValue, callback }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const state = {
+    button: 1,
+  };
+
   const handleSubmit = (event) => {
+    const uID = event.target.userName.value;
+    const password = event.target.password.value;
     event.preventDefault();
-    axios({
-      method: "post",
-      url:"http://localhost:5000/login",
-      data: {
-        username: username,
+    if (state.button === 1) {
+      axios({
+        method: "GET",
+        url:
+          "http://127.0.0.1:5000/signin?userId=" +
+          uID +
+          "&password=" +
+          password,
+      })
+        .then((response) => {
+          const res = response.data;
+          console.log(res);
+          if (res["result"] != "Failed") {
+            callback(uID);
+          } else {
+            alert("Unable to signin");
+          }
+        })
+        .catch((error) => {
+          if (error.response) {
+            alert("error");
+            console.log(error.response);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          }
+        });
+    } else {
+      axios
+      .post("/signup", {
+        userId: uID,
         password: password,
-      },
-    })
-    .then((response) => {
-      if(response.data.success){
-        callback(true)
-      }else{
-        alert(response.data.message);
-      }
-      
-      
-    }).catch((error) => {
-      if (error.response) {
-        alert("error")
-        console.log(error.response)
-        console.log(error.response.status)
-        console.log(error.response.headers) 
+      })
+      .then((response) => {
+        const res = response.data;
+        if (res["result"] != "Failed") {
+          callback(uID);
+        } else {
+          alert("Unable to signup");
         }
-    })
-    
-    
-    // make HTTP request to server to validate user's credentials
-  };
-  const handleRegister = (event) => {
-  
-    event.preventDefault();
-    axios({
-      method: "POST",
-      url: "http://localhost:5000/signup",
-      data: {
-        username: username,
-        password: password,
-      },
-    })
-    .then((response) => {
-      alert(response.data)
-      alert("hit backend");
-      callback(username);
-    }).catch((error) => {
-      if (error.response) {
-        alert("error")
-        console.log(error.response)
-        console.log(error.response.status)
-        console.log(error.response.headers) 
-        }
-    })
-    
-    
-    // make HTTP request to server to validate user's credentials
+      })
+      .catch((err) => {
+        alert("Unable to signup try with valid fields");
+        console.log(err);
+      });
+    }
   };
 
-  
 
-  useEffect(() => {
-    axios.get("http://127.0.0.1:5000/signin?userId=userid&password=abc123").then((data) => {
-    //  alert("hello");
-    });
-  }, []);
-  
   if (showValue === false) {
     return (
-      <form onSubmit={handleSubmit}> 
+      <form onSubmit={handleSubmit}>
         <label>
           Username:
           <input
@@ -98,11 +85,14 @@ function Login({showValue, callback, callback1}) {
           />
         </label>
         <br />
-        <button type="submit">Submit</button>
-        <button type="button" onClick={handleRegister}>Register</button>
+        <button type="submit" onClick={() => (state.button = 1)}>
+          Submit
+        </button>
+        <button type="register" onClick={() => (state.button = 2)}>
+          Register
+        </button>
       </form>
     );
   }
 }
-
 export default Login;

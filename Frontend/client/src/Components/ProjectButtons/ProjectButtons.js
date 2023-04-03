@@ -50,6 +50,8 @@ export default class ProjectButtons extends React.Component {
             })
             .catch((err) => {
               console.log(err);
+              alert("Checked out failed please join project ");
+
             });
         }
       })
@@ -89,6 +91,7 @@ export default class ProjectButtons extends React.Component {
             })
             .catch((err) => {
               console.log(err);
+              alert("Checked out failed please join project ");
             });
         }
       })
@@ -128,6 +131,7 @@ export default class ProjectButtons extends React.Component {
             })
             .catch((err) => {
               console.log(err);
+              alert("Checked out failed please join project ");
             });
         }
       })
@@ -167,6 +171,7 @@ export default class ProjectButtons extends React.Component {
             })
             .catch((err) => {
               console.log(err);
+              alert("Checked out failed please join project ");
             });
         }
       })

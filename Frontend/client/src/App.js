@@ -8,18 +8,16 @@ import ProjectButtons from "./Components/ProjectButtons/ProjectButtons";
 import data from "./projectsdatas.json";
 import ProjectsPage from "./Components/ProjectsPage/ProjectsPage";
 function App() {
-  const [data, setData, setHwsetsQty, loginInfo, hwsets, setHwsets] = useState([
-    {},
-  ]);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const[uID, setuID] = useState("");
-  const [profileData, setProfileData] = useState(null);
+  const[uID, setuID] = useState(
+    localStorage.getItem('uId')
+  );
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem('isLoggedIn') === 'true'
   );
   useEffect(() => {
     localStorage.setItem('isLoggedIn', isLoggedIn);
+    localStorage.setItem('uId', uID);
+
   }, [isLoggedIn]);
 
   const handleLogin = useCallback((event) => {
@@ -30,18 +28,20 @@ function App() {
   
 
   const handleLogout = () => {
+    setuID("")
     setIsLoggedIn(false);
   };
 
   return (
     <div className="App">
       <h1>Projects</h1>
+      <h1> Signed in as {uID} </h1>
       <div className="content">
         <Login showValue={isLoggedIn} callback={handleLogin}></Login>
         
         <button onClick={handleLogout}>Log out</button>
       </div>
-      <ProjectsPage showValue={isLoggedIn} userId="abc123"></ProjectsPage>
+      <ProjectsPage showValue={isLoggedIn} userId={uID}></ProjectsPage>
     </div>
   );
 }

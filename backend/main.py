@@ -58,7 +58,7 @@ def signin():
     # TODO: HIT mongo db 
  
     users = mongo.db.users
-    user = users.find_one({USERID: userId})
+    user = users.find_one({USERID: userId, PASSWORD: password})
     print(user)
     if(user != None):
         return {"result": "Success",

@@ -25,11 +25,10 @@
             }
             if(e.key === '1' || e.key==='2' || e.key==='3' || e.key==='4' || e.key==='5' || e.key==='6' || e.key==='7' || e.key==='8' || e.key==='9' || e.key==='0'){
                 
-                this.setState(state => ({
-                
-                value: e.target.value + e.key
-                
-                }));
+                const newValue = parseInt(e.target.value + e.key, 10);
+        this.setState(state => ({
+            value: newValue
+        }));    
             }
         }
             
@@ -44,6 +43,7 @@
             this.setState(state =>({
                 qty: parseInt(state.qty) + parseInt(state.value)
             }))
+
             }
             if(childData === "b2"){
             this.setState(state =>({
@@ -121,8 +121,9 @@
                 </div>
                     <TextField id='qtyBox'  onKeyDown={this.enterhandler}
                     label="qty"
+                    //value={this.state.value}
                     />
-                    <ProjectButtons pcallBack={this.callback} joinstate="join"></ProjectButtons>
+                    <ProjectButtons joinstate="join" quantity={this.state.value}></ProjectButtons>
                 </Box>
             )
         }

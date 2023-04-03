@@ -252,5 +252,41 @@ def get_data():
     data = {'message': 'Hello from the backend!'}
     return jsonify(data)
 
+@main.route('/update_quantity', methods=['POST'])
+def update_quantity():
+    data = request.json
+    quantity = data['quantity']
+    quantity = int(quantity)
+    HW_collection = mongo.db.HWSets
+    HW_collection.update_one({'name' : 'HWSet1'}, {'$inc': {'qty': quantity}})
+    return 'Quantity updated successfully'
+
+@main.route('/update_quantity2', methods=['POST'])
+def update_quantity2():
+    data = request.json
+    quantity = data['quantity']
+    quantity = int(quantity)
+    HW_collection = mongo.db.HWSets
+    HW_collection.update_one({'name' : 'HWSet2'}, {'$inc': {'qty': quantity}})
+    return 'Quantity updated successfully'
+
+@main.route('/checkout_quantity', methods=['POST'])
+def checkout_quantity():
+    data = request.json
+    quantity = data['quantity']
+    quantity = int(quantity)
+    HW_collection = mongo.db.HWSets
+    HW_collection.update_one({'name' : 'HWSet1'}, {'$inc': {'qty': -quantity}})
+    return 'Quantity updated successfully'
+
+@main.route('/checkout_quantity2', methods=['POST'])
+def checkout_quantity2():
+    data = request.json
+    quantity = data['quantity']
+    quantity = int(quantity)
+    HW_collection = mongo.db.HWSets
+    HW_collection.update_one({'name' : 'HWSet2'}, {'$inc': {'qty': -quantity}})
+    return 'Quantity updated successfully'
+
 if __name__ == "__main__":
     main.run(debug = True)

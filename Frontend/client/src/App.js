@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from "axios";
 import SignUp from "./Functions/SignUp"
 import Login from "./Functions/Login"
@@ -11,9 +11,10 @@ function App() {
   const [data, setData, setHwsetsQty, loginInfo,  hwsets, setHwsets] = useState([{}])
   const [profileData, setProfileData, ] = useState(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const handleLogin = () => {
+  const handleLogin = useCallback(event =>   {
     setIsLoggedIn(true);
-  };
+
+  }, []);
   const handleLogout = () => {
     setIsLoggedIn(false);
   };
@@ -57,9 +58,9 @@ function App() {
       <h1>Projects</h1>
       <div className="content">
         {/* <ProjectsPage showValue = {isLoggedIn}></ProjectsPage> */}
-        
+        <Login showValue = {isLoggedIn}callback = {handleLogin}></Login>
       </div>
-      <ProjectsPage></ProjectsPage>
+      <ProjectsPage showValue = {isLoggedIn}></ProjectsPage>
       <HWSets></HWSets>
       
       <ShowHWSet1></ShowHWSet1>

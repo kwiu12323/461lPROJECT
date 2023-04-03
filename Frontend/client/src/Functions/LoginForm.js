@@ -11,11 +11,7 @@ function LoginForm({ onLogin, callback1  }) {
       onLogin();
     }
   };
-  useEffect(() => {
-    axios.get("http://127.0.0.1:5000/signin?userId=userid&password=abc123").then((data) => {
-      
-    });
-  }, []);
+  
   const handleRegister = (event) => {
     
     callback1();

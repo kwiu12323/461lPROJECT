@@ -31,10 +31,11 @@ def index():    #this is temporary, im just adding a new user to the database to
 def signup():
     data = request.get_json() # body content
     #username = encrypt(data[USERNAME]) #
-    username = data[USERNAME]
+    # username = data[USERNAME]
+    print("here")
     userId = encrypt(data[USERID])
     password = encrypt(data[PASSWORD])
-    user = User(username=username, userId=userId, password=password)
+    user = User(username=userId, userId=userId, password=password)
     user_collection = mongo.db.users
     result = user_collection.insert_one(user)
     if result.inserted_id:

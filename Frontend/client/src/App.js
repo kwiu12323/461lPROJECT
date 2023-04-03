@@ -22,32 +22,15 @@ function App() {
   const handleLogout = () => {
     setIsLoggedIn(false);
   };
-
-  // useEffect(() => {
-  //   fetch('/api/hwsets')
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log(data); // log the data to the console
-  //       setHwsets(data.hwsets);
-  //     })
-  //     .catch(error => console.error(error));
-  // }, []);
-
+  
   return (
     <div className="App">
       <h1>Projects</h1>
       <div className="content">
-        {/* <ProjectsPage showValue = {isLoggedIn}></ProjectsPage> */}
         <Login showValue={isLoggedIn} callback={handleLogin}></Login>
       </div>
-      <ProjectsPage showValue={isLoggedIn} userId="abc123"></ProjectsPage>
+      <ProjectsPage showValue={isLoggedIn} userId={uID}></ProjectsPage>
     </div>
-    //   <div className="App">
-
-    //   <main>
-    //     <HWSets />
-    //   </main>
-    // </div>
   );
 }
 

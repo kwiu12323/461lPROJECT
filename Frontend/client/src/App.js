@@ -8,27 +8,27 @@ import ProjectButtons from './Components/ProjectButtons/ProjectButtons';
 import data from "./projectsdatas.json"
 import ProjectsPage from "./Components/ProjectsPage/ProjectsPage"
 function App() {
-  const [data, setData, setHwsetsQty, loginInfo,  hwsets, setHwsets] = useState([{}])
-  const [profileData, setProfileData, ] = useState(null)
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
+  // const [data, setData, setHwsetsQty, loginInfo,  hwsets, setHwsets] = useState([{}])
+  // const [profileData, setProfileData, ] = useState(null)
+  const [projects, setProjects] = useState({})
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const handleLogin = () => {
+  //   setIsLoggedIn(true);
+  // };
+  // const handleLogout = () => {
+  //   setIsLoggedIn(false);
+  // };
 
   function getData() {
     axios({
       method: "GET",
-      url:"/userList",
+      url:"/fetch-projects",
     })
     .then((response) => {
       const res =response.data
-      setProfileData(({
-        profile_name: res.name,
-        userId: res.userId,
-        userPW: res.password,}))
+      console.log(res["result"])
+      setProjects({projects: res["result"]})
+      console.log(projects)
     }).catch((error) => {
       if (error.response) {
         console.log(error.response)
@@ -36,18 +36,16 @@ function App() {
         console.log(error.response.headers)
         }
     })}
-    
 
-
-    useEffect(() => {
-      fetch('/api/hwsets')
-        .then(response => response.json())
-        .then(data => {
-          console.log(data); // log the data to the console
-          setHwsets(data.hwsets);
-        })
-        .catch(error => console.error(error));
-    }, []);
+    // useEffect(() => {
+    //   fetch('/api/hwsets')
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       console.log(data); // log the data to the console
+    //       setHwsets(data.hwsets);
+    //     })
+    //     .catch(error => console.error(error));
+    // }, []);
   
 
   return (
@@ -68,13 +66,13 @@ function App() {
       {/* //testing from here */}
       {/* new line start*/}
       <button onClick={getData}>CheckUserButton</button>
-       {profileData && <div>
+       {/* {profileData && <div>
              <p>User name: {profileData.profile_name}</p>
              <p>User ID: {profileData.userId}</p>
              <p>User password: {profileData.userPW}</p>
              <p>User password: {profileData.userPW}</p>
            </div>
-       }
+       } */}
         {/* end of new line */}
      
     </div>

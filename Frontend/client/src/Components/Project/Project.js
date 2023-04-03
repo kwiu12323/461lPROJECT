@@ -87,9 +87,9 @@
                     height: "70px",
                     width: "1000px",
                     padding: "2px",
-                    "&:hover": {
-                    backgroundColor: "red"
-                    },
+                    // "&:hover": {
+                    // backgroundColor: "red"
+                    // },
                 }} border={1} borderColor="black">
                     <p sx={{
                     color: "black",

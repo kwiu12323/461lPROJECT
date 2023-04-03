@@ -1,16 +1,61 @@
 import Box from '@mui/material/Box'
-import { height } from '@mui/system'
+import { height, Stack } from '@mui/system'
 import './ProjectsPage.css'
 import Project from '../Project/Project'
+import CreateProject from '../Project/CreateProject'
 import App from '../../App'
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 
 export default class ProjectsPage extends React.Component{
-    
+    state = {
+        projects: [],
+    }
+
+    componentWillMount(){
+      this.fetchProjectData()
+    }
+    fetchProjectData() {
+      axios({
+        method: "GET",
+        url:"/fetch-projects",
+      })
+      .then((response) => {
+        const res =response.data
+        console.log(res)
+        const fetched_projects = []
+        const count = res["count"]
+        var charInt = "0"
+        for (var i=0; i < count; i++) {
+          console.log(res["result"][charInt])
+          fetched_projects.push(res["result"][charInt])
+          charInt++;
+        }
+        this.setState({projects: fetched_projects})
+      }).catch((error) => {
+        if (error.response) {
+          console.log(error.response)
+          console.log(error.response.status)
+          console.log(error.response.headers)
+          }
+      })
+    }
+
+    renderProjects() {
+      console.log("in project")
+      console.log(this.state.projects)
+      if(this.state.projects.count != 0) {
+      return this.state.projects.map((project) => {
+        return (
+          <Project projectname={project["projectName"]} users={project["users"]} quantity={project["qty"]}></Project>
+        );
+    });
+    }
+    }
     render(){
-         if(this.props.showValue === true){
+        //  if(this.props.showValue === true){
         return(
+        <Stack>
         <Box  sx={{
             p: 2,
             display: "block",
@@ -25,17 +70,12 @@ export default class ProjectsPage extends React.Component{
         }}
         border={1} borderColor="black"  
          >
-        
-           
-            
-            
-            <Project projectname="Project1 " users="na" quantity q1></Project>
-            <Project projectname="Project2" users="na" quantity q2></Project>
-            <Project projectname="Project3" users="na" quantity q2></Project>
-            
+            {this.renderProjects()}
         </Box>
+        <CreateProject></CreateProject>
+        </Stack>
         )
-       }
+      //  }
       }
 
   

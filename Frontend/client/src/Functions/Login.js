@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 
 function Login() {
@@ -30,6 +31,7 @@ function Login() {
       </label>
       <br />
       <button type="submit">Submit</button>
+      <button type = "register"></button>
     </form>
   );
 }

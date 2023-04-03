@@ -13,12 +13,19 @@ function App() {
   ]);
   const[uID, setuID] = useState("");
   const [profileData, setProfileData] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem('isLoggedIn') === 'true'
+  );
+  useEffect(() => {
+    localStorage.setItem('isLoggedIn', isLoggedIn);
+  }, [isLoggedIn]);
+
   const handleLogin = useCallback((event) => {
     setuID(event)
     alert("Signed in " + event);
     setIsLoggedIn(true);
   }, []);
+
   const handleLogout = () => {
     setIsLoggedIn(false);
   };
@@ -28,6 +35,7 @@ function App() {
       <h1>Projects</h1>
       <div className="content">
         <Login showValue={isLoggedIn} callback={handleLogin}></Login>
+        <button onClick={handleLogout}>Log out</button>
       </div>
       <ProjectsPage showValue={isLoggedIn} userId="abc123"></ProjectsPage>
     </div>

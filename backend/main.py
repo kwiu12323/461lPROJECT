@@ -12,6 +12,7 @@ PROJECTNAME = "projectName"
 DESCRIPTION = "description"
 USERS = "users"
 FAILED = {"result" : "Failed"}
+SUCCESS = {"result" : "Success"}
 
 @main.route('/')
 def index():    #this is temporary, im just adding a new user to the database to see if mongodb and backend is connected
@@ -37,7 +38,8 @@ def signup():
     user_collection = mongo.db.users
     result = user_collection.insert_one(user)
     if result.inserted_id:
-        return {"result": "Success"}
+        return {"result": "Success",
+                "enc_user_id": userId}
     return FAILED
     
 
@@ -58,7 +60,8 @@ def signin():
     user = users.find_one({USERID: userId})
     print(user)
     if(user != None):
-        return {"result": "Sucess"}
+        return {"result": "Success",
+                "enc_user_id": userId}
     return FAILED
 
 
@@ -78,7 +81,7 @@ def createProject():
     projectId = data[PROJECTID]
     description = data[DESCRIPTION]
     userId = encrypt(data[USERID])
-    project = Project(projectName = projectName, projectId=projectId, descpiption=description, hwQty=0, capacity=100, users=[userId])
+    project = Project(projectName = projectName, projectId=projectId, description=description, hwQty=0, capacity=100, users=[userId])
 
     project_collection = mongo.db.projects
     result = project_collection.insert_one(project)
@@ -96,11 +99,14 @@ def fetchProject():
     #TODO query mongo db for project that has both
     project_collection = mongo.db.projects.find()
     projects = {}
+    count = 0
     for ind, doc in enumerate(project_collection):
         print(doc)
         del doc["_id"]
         projects[ind] = doc
-    return projects
+        count = ind + 1
+    return {"count": count,
+            "result": projects}
 
 
 #
@@ -261,37 +267,63 @@ def get_data():
 def update_quantity():
     data = request.json
     quantity = data['quantity']
+    projectId = data['projectId']
+    userId = data['userId']
     quantity = int(quantity)
-    HW_collection = mongo.db.HWSets
-    HW_collection.update_one({'name' : 'HWSet1'}, {'$inc': {'qty': quantity}})
-    return 'Quantity updated successfully'
+    projects = mongo.db.projects
+    project = projects.find_one({PROJECTID: projectId})
+    if userId in project["users"]:
+        HW_collection = mongo.db.HWSets
+        HW_collection.update_one({'name' : 'HWSet1'}, {'$inc': {'qty': quantity}})
+        return 'Quantity updated successfully'
+    return FAILED
+
+
 
 @main.route('/update_quantity2', methods=['POST'])
 def update_quantity2():
     data = request.json
     quantity = data['quantity']
+    projectId = data['projectId']
+    userId = data['userId']
     quantity = int(quantity)
-    HW_collection = mongo.db.HWSets
-    HW_collection.update_one({'name' : 'HWSet2'}, {'$inc': {'qty': quantity}})
-    return 'Quantity updated successfully'
+    projects = mongo.db.projects
+    project = projects.find_one({PROJECTID: projectId})
+    if userId in project["users"]:
+        HW_collection = mongo.db.HWSets
+        HW_collection.update_one({'name' : 'HWSet2'}, {'$inc': {'qty': quantity}})
+        return 'Quantity updated successfully'
+    return FAILED
 
 @main.route('/checkout_quantity', methods=['POST'])
 def checkout_quantity():
     data = request.json
     quantity = data['quantity']
+    projectId = data['projectId']
+    userId = data['userId']
     quantity = int(quantity)
-    HW_collection = mongo.db.HWSets
-    HW_collection.update_one({'name' : 'HWSet1'}, {'$inc': {'qty': -quantity}})
-    return 'Quantity updated successfully'
+    projects = mongo.db.projects
+    project = projects.find_one({PROJECTID: projectId})
+    if userId in project["users"]:
+        HW_collection = mongo.db.HWSets
+        HW_collection.update_one({'name' : 'HWSet1'}, {'$inc': {'qty': -quantity}})
+        return 'Quantity updated successfully'
+    return FAILED
 
 @main.route('/checkout_quantity2', methods=['POST'])
 def checkout_quantity2():
     data = request.json
     quantity = data['quantity']
+    projectId = data['projectId']
+    userId = data['userId']
     quantity = int(quantity)
-    HW_collection = mongo.db.HWSets
-    HW_collection.update_one({'name' : 'HWSet2'}, {'$inc': {'qty': -quantity}})
-    return 'Quantity updated successfully'
+    projects = mongo.db.projects
+    project = projects.find_one({PROJECTID: projectId})
+    if userId in project["users"]:
+        HW_collection = mongo.db.HWSets
+        HW_collection.update_one({'name' : 'HWSet2'}, {'$inc': {'qty': -quantity}})
+        return 'Quantity updated successfully'
+    return FAILED
 
 if __name__ == "__main__":
     main.run(debug = True)

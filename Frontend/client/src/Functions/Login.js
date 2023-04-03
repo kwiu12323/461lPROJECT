@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { getActiveElement } from "@testing-library/user-event/dist/utils";
 
+
 function Login({showValue, callback, callback1}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -9,7 +10,7 @@ function Login({showValue, callback, callback1}) {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios({
-      method: "GET",
+      method: "post",
       url:"http://localhost:5000/login",
       data: {
         username: username,
@@ -17,7 +18,7 @@ function Login({showValue, callback, callback1}) {
       },
     })
     .then((response) => {
-      alert(response.data)
+      alert(response.data.username)
       alert("hit backend");
       
     }).catch((error) => {
@@ -28,8 +29,8 @@ function Login({showValue, callback, callback1}) {
         console.log(error.response.headers) 
         }
     })
-    const uID = event.target.userName.value
-    callback(uID);
+    
+    
     // make HTTP request to server to validate user's credentials
   };
   const handleRegister = (event) => {

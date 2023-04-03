@@ -35,6 +35,7 @@ function App() {
       <h1>Projects</h1>
       <div className="content">
         <Login showValue={isLoggedIn} callback={handleLogin}></Login>
+        
         <button onClick={handleLogout}>Log out</button>
       </div>
       <ProjectsPage showValue={isLoggedIn} userId="abc123"></ProjectsPage>

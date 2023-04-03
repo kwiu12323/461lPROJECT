@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import { height } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import "./Project.css";
-import { TextField } from "@mui/material";
+import { Stack, TextField } from "@mui/material";
 import ProjectButtons from "../ProjectButtons/ProjectButtons";
 import App from "../../App";
 import axios from "axios";
@@ -76,7 +76,7 @@ export default class Project extends React.Component {
     }
   };
 
-  userInProject(){
+  userInProject() {
     axios
       .get(
         "http://localhost:5000/user-in-project?userId=" +
@@ -87,8 +87,8 @@ export default class Project extends React.Component {
       .then((response) => {
         const res = response.data;
         this.setState((state) => ({
-            joinstate: res["Result"],
-          }));
+          joinstate: res["Result"],
+        }));
       });
   }
   render() {
@@ -109,21 +109,22 @@ export default class Project extends React.Component {
         border={1}
         borderColor="black"
       >
-        <p
-          sx={{
-            color: "black",
-          }}
-        >
-          {this.props.projectname}
-        </p>
-        <p
-          sx={{
-            color: "black",
-          }}
-        >
-          {this.props.users}
-        </p>
-
+        <Stack>
+        <p>Project Name</p>
+        <p>{this.props.projectName}</p>
+        </Stack>
+        <Stack>
+        <p>User List</p>
+        <p>{this.props.users}</p>
+        </Stack>
+        <Stack>
+        <p>Project Id</p>
+        <p>{this.props.projectId}</p>
+        </Stack>
+        <Stack>
+        <p>Project description</p>
+        <p>{this.props.description}</p>
+        </Stack>
         <div
           sx={{
             display: "flex",

@@ -51,10 +51,11 @@ export default class ProjectsPage extends React.Component {
         return (
           <Project
             projectname={project["projectName"]}
-            users={project["users"]}
+            users={project["users"].join(' ')}
             quantity={project["qty"]}
             projectId={project["projectId"]}
             userId={this.state.userId}
+            description={project["description"]}
           ></Project>
         );
       });

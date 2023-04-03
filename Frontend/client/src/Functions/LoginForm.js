@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-
-function LoginForm({ onLogin  }) {
+import React, { useState ,useEffect} from "react";
+import axios from "axios";
+function LoginForm({ onLogin, callback1  }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = (event) => {
@@ -11,9 +11,18 @@ function LoginForm({ onLogin  }) {
       onLogin();
     }
   };
+  useEffect(() => {
+    axios.get("http://127.0.0.1:5000/signin?userId=userid&password=abc123").then((data) => {
+      
+    });
+  }, []);
+  const handleRegister = (event) => {
+    
+    callback1();
 
+  };
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} onRegister={handleRegister}>
       <label>
         Username:
         <input
@@ -33,6 +42,7 @@ function LoginForm({ onLogin  }) {
       </label>
       <br />
       <button type="submit" onClick={(event)=>handleSubmit}>Log in</button>
+      <button type="register" onClick={(event)=>handleRegister}>Register</button>
     </form>
   );
 }

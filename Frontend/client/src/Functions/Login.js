@@ -33,10 +33,34 @@ function Login({showValue, callback, callback1}) {
     // make HTTP request to server to validate user's credentials
   };
   const handleRegister = (event) => {
+    alert("hello")
+    event.preventDefault();
+    axios({
+      method: "POST",
+      url: "http://localhost:5000/signup",
+      data: {
+        username: username,
+        password: password,
+      },
+    })
+    .then((response) => {
+      alert(response.data)
+      alert("hit backend");
+      callback(username);
+    }).catch((error) => {
+      if (error.response) {
+        alert("error")
+        console.log(error.response)
+        console.log(error.response.status)
+        console.log(error.response.headers) 
+        }
+    })
     
-    callback1();
-
+    
+    // make HTTP request to server to validate user's credentials
   };
+
+  
 
   useEffect(() => {
     axios.get("http://127.0.0.1:5000/signin?userId=userid&password=abc123").then((data) => {

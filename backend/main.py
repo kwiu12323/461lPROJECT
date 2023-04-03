@@ -37,7 +37,8 @@ def signup():
     user_collection = mongo.db.users
     result = user_collection.insert_one(user)
     if result.inserted_id:
-        return {"result": "Success"}
+        return {"result": "Success",
+                "enc_user_id": userId}
     return FAILED
     
 
@@ -58,7 +59,8 @@ def signin():
     user = users.find_one({USERID: userId})
     print(user)
     if(user != None):
-        return {"result": "Sucess"}
+        return {"result": "Sucess",
+                "enc_user_id": userId}
     return FAILED
 
 
@@ -78,7 +80,7 @@ def createProject():
     projectId = data[PROJECTID]
     description = data[DESCRIPTION]
     userId = encrypt(data[USERID])
-    project = Project(projectName = projectName, projectId=projectId, descpiption=description, hwQty=0, capacity=100, users=[userId])
+    project = Project(projectName = projectName, projectId=projectId, description=description, hwQty=0, capacity=100, users=[userId])
 
     project_collection = mongo.db.projects
     result = project_collection.insert_one(project)
@@ -96,11 +98,14 @@ def fetchProject():
     #TODO query mongo db for project that has both
     project_collection = mongo.db.projects.find()
     projects = {}
+    count = 0
     for ind, doc in enumerate(project_collection):
         print(doc)
         del doc["_id"]
         projects[ind] = doc
-    return projects
+        count = ind + 1
+    return {"count": count,
+            "result": projects}
 
 
 #

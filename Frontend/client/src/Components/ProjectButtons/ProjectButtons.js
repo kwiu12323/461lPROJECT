@@ -19,66 +19,131 @@ export default class ProjectButtons extends React.Component{
     //     }
     // }
     sendCheckinToBackend = () => {
-        const quantity = this.props.quantity; // Access the quantity prop
+        var quantity = this.props.quantity; // Access the quantity prop
+
+        axios.get('/get_availability')
+        .then(response => {
+            const currentAvailability = 100-response.data.quantity
+           
+            
+            if (quantity > currentAvailability) {
+                 alert(`The maximum number of items is 100, You can only check in smaller amount than ${currentAvailability}.`);
+                //alert(currentAvailability)
+            }else{
+                
+                alert("Checked in " + quantity)
+                axios.post('/update_quantity', {
+                  quantity: quantity, // Use the quantity prop here
+                })
+                .then(res => {
+                  console.log(res.data)
+                  
+                  window.location.reload();
+                  quantity = 0;
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }
+        }).catch(error => {
+            alert('An error occurred while getting availability!');
+        });
         
-        alert("checked in " + quantity)
-        axios.post('/update_quantity', {
-          quantity: quantity, // Use the quantity prop here
-        })
-        .then(res => {
-          console.log(res.data)
-          window.location.reload();
-        })
-        .catch(err => {
-          console.log(err)
-        })
       }
       sendCheckinToBackend2 = () => {
-        const quantity = this.props.quantity; // Access the quantity prop
-        
-        alert("checked in " + quantity)
+        var quantity = this.props.quantity; // Access the quantity prop
+
+        axios.get('/get_availability2')
+        .then(response => {
+            const currentAvailability = 100-response.data.quantity
+           
+            
+            if (quantity > currentAvailability) {
+                alert(`The maximum number of items is 100, You can only check in smaller amount than ${currentAvailability}.`);
+            }else{
+                
+                alert("Checked in " + quantity)
         axios.post('/update_quantity2', {
           quantity: quantity, // Use the quantity prop here
         })
         .then(res => {
           console.log(res.data)
           window.location.reload();
+          quantity = 0;
         })
         .catch(err => {
           console.log(err)
         })
+            }
+        }).catch(error => {
+            alert('An error occurred while getting availability!');
+        });
+        
       }
       sendCheckoutToBackend = () => {
-        const quantity = this.props.quantity; // Access the quantity prop
+        var quantity = this.props.quantity; // Access the quantity prop
+
+        axios.get('/get_availability')
+        .then(response => {
+            
+            const currentAvailability = response.data.quantity
+            
+            if (quantity > currentAvailability) {
+                alert(`Not enough items available. Current availability is ${currentAvailability}.`);
+            }else{
+                alert("Checked out " + quantity)
+                axios.post('/checkout_quantity', {
+                  quantity: quantity, // Use the quantity prop here
+                })
+                .then(res => {
+                  console.log(res.data)
+                  window.location.reload();
+                  quantity = 0;
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }
+        }).catch(error => {
+            alert('An error occurred while getting availability!');
+        });
         
-        alert("checked out " + quantity)
-        axios.post('/checkout_quantity', {
-          quantity: quantity, // Use the quantity prop here
-        })
-        .then(res => {
-          console.log(res.data)
-          window.location.reload();
-        })
-        .catch(err => {
-          console.log(err)
-        })
       }
       sendCheckoutToBackend2 = () => {
-        const quantity = this.props.quantity; // Access the quantity prop
-        
-        alert("checked out " + quantity)
-        axios.post('/checkout_quantity2', {
-          quantity: quantity, // Use the quantity prop here
-        })
-        .then(res => {
-          console.log(res.data)
-          window.location.reload();
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      }
 
+        var quantity = this.props.quantity; // Access the quantity prop
+
+        axios.get('/get_availability2')
+        .then(response => {
+            
+            const currentAvailability = response.data.quantity
+            
+            if (quantity > currentAvailability) {
+                alert(`Not enough items available. Current availability is ${currentAvailability}.`);
+            }else{
+                alert("Checked out " + quantity)
+                axios.post('/checkout_quantity2', {
+                  quantity: quantity, // Use the quantity prop here
+                })
+                .then(res => {
+                  console.log(res.data)
+                  window.location.reload();
+                  quantity = 0;
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }
+        }).catch(error => {
+            alert('An error occurred while getting availability!');
+        });
+        
+
+
+        
+       
+      
+    }
 
     sendBack = () => {
         //alert("check in 1");

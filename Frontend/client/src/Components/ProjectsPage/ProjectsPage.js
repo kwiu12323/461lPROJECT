@@ -53,7 +53,7 @@ export default class ProjectsPage extends React.Component{
     }
     }
     render(){
-        //  if(this.props.showValue === true){
+        // if(this.props.showValue === true){
         return(
         <Stack>
         <Box  sx={{
@@ -75,7 +75,7 @@ export default class ProjectsPage extends React.Component{
         <CreateProject></CreateProject>
         </Stack>
         )
-      //  }
+       //}
       }
 
   

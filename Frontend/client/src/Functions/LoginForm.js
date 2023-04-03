@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function LoginForm({ onLogin }) {
+function LoginForm({ onLogin  }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = (event) => {
@@ -32,7 +32,7 @@ function LoginForm({ onLogin }) {
         />
       </label>
       <br />
-      <button type="submit">Log in</button>
+      <button type="submit" onClick={(event)=>handleSubmit}>Log in</button>
     </form>
   );
 }

@@ -237,20 +237,25 @@ def get_hwsets():
     }
     return response_body
 
-def get_hwsets():
+@main.route('/get_availability', methods=['GET'])
+def get_hwset1():
     # Retrieve hardware sets data from MongoDB
     HW_collection = mongo.db.HWSets
-    hwsets = []
-    for hwset in HW_collection.find():
-        hwsets.append({
-            '_id': hwset['_id'],
-            'name': hwset['name'],
-            'maxQuantity': hwset['maxQuantity'],
-            'qty': hwset['qty']
-        })
-    
+
+    hwset1_doc = HW_collection.find_one({'name': 'HWSet1'})
+    data = hwset1_doc['qty']
     # Return JSON response with hardware sets data
-    return jsonify({'hwsets': hwsets})
+    return jsonify({'quantity' : data})
+
+@main.route('/get_availability2', methods=['GET'])
+def get_hwset2():
+    # Retrieve hardware sets data from MongoDB
+    HW_collection = mongo.db.HWSets
+
+    hwset2_doc = HW_collection.find_one({'name': 'HWSet2'})
+    data = hwset2_doc['qty']
+    # Return JSON response with hardware sets data
+    return jsonify({'quantity' : data})
 
 @main.route('/api/data')
 def get_data():

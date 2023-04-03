@@ -9,7 +9,7 @@ import axios from "axios";
 export default class ProjectsPage extends React.Component{
     
     render(){
-         if(this.props.showValue === true){
+        // if(this.props.showValue === true){
         return(
         <Box  sx={{
             p: 2,
@@ -35,7 +35,7 @@ export default class ProjectsPage extends React.Component{
             
         </Box>
         )
-       }
+       //}
       }
 
   

@@ -11,9 +11,12 @@ function App() {
   const [data, setData, setHwsetsQty, loginInfo, hwsets, setHwsets] = useState([
     {},
   ]);
+  const[uID, setuID] = useState("");
   const [profileData, setProfileData] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const handleLogin = useCallback((event) => {
+    setuID(event)
+    alert(event);
     setIsLoggedIn(true);
   }, []);
   const handleLogout = () => {
@@ -260,3 +263,4 @@ const sendCheckinToBackend = async (data) => {
 export { sendCheckinToBackend };
 
 export default App;
+

@@ -67,15 +67,21 @@ def signin():
 
 @main.route("/login", methods=["POST"])
 def login():
-    username = request.json["username"]
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    
+    
     username = encrypt(username)
-    password = encrypt(request.json["password"])
+    password = encrypt(password)
     user = mongo.db.users.find_one({"username": username, "password": password})
 
     if user is None:
-        return jsonify({"error": "Invalid username or password"}), 401
+ 
+        return jsonify({'success': False, 'message': 'Login unsuccessful, invalid username or password', 'data': {'username': username}})
     else:
-        return jsonify({"message": "Logged in successfully!"}), 200
+        return jsonify({'success': True, 'message': 'Login successful', 'data': {'username': username}})
+    
 
 #
 # CREATE PROJECT POST BODY CONTENTS:

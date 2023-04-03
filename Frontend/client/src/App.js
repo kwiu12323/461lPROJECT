@@ -11,6 +11,8 @@ function App() {
   const [data, setData, setHwsetsQty, loginInfo, hwsets, setHwsets] = useState([
     {},
   ]);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const[uID, setuID] = useState("");
   const [profileData, setProfileData] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -22,9 +24,10 @@ function App() {
 
   const handleLogin = useCallback((event) => {
     setuID(event)
-    alert("Signed in " + event);
+   // alert("Signed in " + event);
     setIsLoggedIn(true);
   }, []);
+  
 
   const handleLogout = () => {
     setIsLoggedIn(false);

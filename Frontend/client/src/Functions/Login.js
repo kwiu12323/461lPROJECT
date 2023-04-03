@@ -18,8 +18,12 @@ function Login({showValue, callback, callback1}) {
       },
     })
     .then((response) => {
-      alert(response.data.username)
-      alert("hit backend");
+      if(response.data.success){
+        callback(true)
+      }else{
+        alert(response.data.message);
+      }
+      
       
     }).catch((error) => {
       if (error.response) {
@@ -34,7 +38,7 @@ function Login({showValue, callback, callback1}) {
     // make HTTP request to server to validate user's credentials
   };
   const handleRegister = (event) => {
-    alert("hello")
+  
     event.preventDefault();
     axios({
       method: "POST",
@@ -65,7 +69,7 @@ function Login({showValue, callback, callback1}) {
 
   useEffect(() => {
     axios.get("http://127.0.0.1:5000/signin?userId=userid&password=abc123").then((data) => {
-     alert("hello");
+    //  alert("hello");
     });
   }, []);
   

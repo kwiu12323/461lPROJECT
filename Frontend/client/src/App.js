@@ -22,14 +22,14 @@ function App() {
   const handleLogout = () => {
     setIsLoggedIn(false);
   };
-  
+
   return (
     <div className="App">
       <h1>Projects</h1>
       <div className="content">
         <Login showValue={isLoggedIn} callback={handleLogin}></Login>
       </div>
-      <ProjectsPage showValue={isLoggedIn} userId={uID}></ProjectsPage>
+      <ProjectsPage showValue={isLoggedIn} userId="abc123"></ProjectsPage>
     </div>
   );
 }

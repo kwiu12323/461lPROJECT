@@ -17,6 +17,9 @@ export default class Project extends React.Component {
     qty2: "0",
   };
 
+  componentWillMount() {
+    this.userInProject();
+  }
   enterhandler = (e) => {
     if (e.key === "Backspace") {
       this.setState((state) => ({
@@ -73,6 +76,21 @@ export default class Project extends React.Component {
     }
   };
 
+  userInProject(){
+    axios
+      .get(
+        "http://localhost:5000/user-in-project?userId=" +
+          this.state.userId +
+          "&projectId=" +
+          this.state.projectId
+      )
+      .then((response) => {
+        const res = response.data;
+        this.setState((state) => ({
+            joinstate: res["Result"],
+          }));
+      });
+  }
   render() {
     return (
       <Box
@@ -128,7 +146,7 @@ export default class Project extends React.Component {
           //value={this.state.value}
         />
         <ProjectButtons
-          joinstate="join"
+          joinstate={this.state.joinstate}
           quantity={this.state.value}
           projectId={this.state.projectId}
           userId={this.state.userId}

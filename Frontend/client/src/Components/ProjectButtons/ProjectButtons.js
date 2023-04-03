@@ -192,6 +192,46 @@ export default class ProjectButtons extends React.Component {
     //this.props.pcallBack("b4");
     this.sendCheckoutToBackend2();
   };
+
+  joinLeaveAction = () => {
+    var projectId = this.props.projectId;
+    var userId = this.props.userId;
+    if(this.props.joinstate === "Join"){
+        axios
+            .post("/join-project", {
+              'projectId': projectId,
+              'userId': userId, // Use the quantity prop here
+            })
+            .then((res) => {
+              if (res.data["result"] != "Failed") {
+                alert("Joined Project ");
+                window.location.reload();
+              } else {
+                alert("Failed to join project");
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+    } else {
+        axios
+            .post("/leave-project", {
+              'projectId': projectId,
+              'userId': userId, // Use the quantity prop here
+            })
+            .then((res) => {
+              if (res.data["result"] != "Failed") {
+                alert("Left Project ");
+                window.location.reload();
+              } else {
+                alert("Failed to leave project");
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+    }
+  };
   render() {
     return (
       <>
@@ -204,7 +244,7 @@ export default class ProjectButtons extends React.Component {
           <Button onClick={this.sendBack3}>checkout HW1</Button>
           <Button onClick={this.sendBack4}>checkout HW2</Button>
         </ButtonGroup>
-        <button variant="contained"> {this.props.joinstate}</button>
+        <button onClick={this.joinLeaveAction} variant="contained"> {this.props.joinstate}</button>
       </>
     );
   }

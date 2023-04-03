@@ -10,6 +10,7 @@ import axios from "axios";
 export default class ProjectsPage extends React.Component {
   state = {
     projects: [],
+    userId: this.props.userId
   };
 
   componentWillMount() {
@@ -53,7 +54,7 @@ export default class ProjectsPage extends React.Component {
             users={project["users"]}
             quantity={project["qty"]}
             projectId={project["projectId"]}
-            userId={this.props.userId}
+            userId={this.state.userId}
           ></Project>
         );
       });
@@ -81,7 +82,7 @@ export default class ProjectsPage extends React.Component {
         >
           {this.renderProjects()}
         </Box>
-        <CreateProject></CreateProject>
+        <CreateProject userId={this.state.userId}></CreateProject>
       </Stack>
     );
     //}

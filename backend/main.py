@@ -80,7 +80,7 @@ def createProject():
     projectName = data[PROJECTNAME]
     projectId = data[PROJECTID]
     description = data[DESCRIPTION]
-    userId = encrypt(data[USERID])
+    userId = encrypt(data["userId"])
     project = Project(projectName = projectName, projectId=projectId, description=description, hwQty=0, capacity=100, users=[userId])
 
     project_collection = mongo.db.projects
@@ -161,12 +161,14 @@ def leaveProject():
     if userId in projectUsers:
         projectUsers.remove(userId)
         print(projectUsers)
+        print("HERE")
         result = project_collection.update_one(
             {PROJECTID: projectId},
             {"$set":
                 {USERS: projectUsers}
             }                             
         )
+        print("REMOVE")
         print(result)
         if result.acknowledged:
             return {"result" : "Success"}
@@ -268,7 +270,7 @@ def update_quantity():
     data = request.json
     quantity = data['quantity']
     projectId = data['projectId']
-    userId = data['userId']
+    userId = encrypt(data['userId'])
     quantity = int(quantity)
     projects = mongo.db.projects
     project = projects.find_one({PROJECTID: projectId})
@@ -285,7 +287,7 @@ def update_quantity2():
     data = request.json
     quantity = data['quantity']
     projectId = data['projectId']
-    userId = data['userId']
+    userId = encrypt(data['userId'])
     quantity = int(quantity)
     projects = mongo.db.projects
     project = projects.find_one({PROJECTID: projectId})
@@ -300,7 +302,7 @@ def checkout_quantity():
     data = request.json
     quantity = data['quantity']
     projectId = data['projectId']
-    userId = data['userId']
+    userId = encrypt(data['userId'])
     quantity = int(quantity)
     projects = mongo.db.projects
     project = projects.find_one({PROJECTID: projectId})
@@ -315,7 +317,7 @@ def checkout_quantity2():
     data = request.json
     quantity = data['quantity']
     projectId = data['projectId']
-    userId = data['userId']
+    userId = encrypt(data['userId'])
     quantity = int(quantity)
     projects = mongo.db.projects
     project = projects.find_one({PROJECTID: projectId})
@@ -324,6 +326,17 @@ def checkout_quantity2():
         HW_collection.update_one({'name' : 'HWSet2'}, {'$inc': {'qty': -quantity}})
         return 'Quantity updated successfully'
     return FAILED
+
+@main.route('/user-in-project', methods=['GET'])
+def user_in_project():
+    userId = encrypt(request.args.get(USERID))
+    projectId  = request.args.get(PROJECTID)
+    projects = mongo.db.projects
+    project = projects.find_one({PROJECTID: projectId})
+    if userId in project["users"]:
+        return {"Result": "Leave"}
+    return {"Result": "Join"}
+
 
 if __name__ == "__main__":
     main.run(debug = True)

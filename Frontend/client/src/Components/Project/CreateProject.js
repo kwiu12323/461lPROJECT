@@ -12,15 +12,22 @@ export default class CreateProject extends React.Component {
     projectName: "",
     projectId: "",
     description: "",
+    userId: this.props.userId
   };
 
-  createProject() {
+  componentWillMount() {
+    this.setState((state) => ({
+        userId: this.props.userId
+    }))
+  }
+  
+  createProject = () => {
     axios
       .post("/create-project", {
-        projectName: this.state.projectName,
-        projectId: this.state.projectId,
-        description: this.state.description,
-        userId: "sdfsdf",
+        'projectName': this.state.projectName,
+        'projectId': this.state.projectId,
+        'description': this.state.description,
+        'userId': this.state.userId,
       })
       .then((res) => {
         console.log(res.data);

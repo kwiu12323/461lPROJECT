@@ -17,7 +17,9 @@ export default class ProjectButtons extends React.Component {
   //     }
   // }
   sendCheckinToBackend = () => {
-    var quantity = this.props.quantity; // Access the quantity prop
+    var quantity = 0
+    quantity = this.props.quantity; // Access the quantity prop
+    
     var projectId = this.props.projectId;
     var userId = this.props.userId;
 
@@ -60,7 +62,8 @@ export default class ProjectButtons extends React.Component {
       });
   };
   sendCheckinToBackend2 = () => {
-    var quantity = this.props.quantity; // Access the quantity prop
+    var quantity = 0
+    quantity = this.props.quantity; // Access the quantity prop
     var projectId = this.props.projectId;
     var userId = this.props.userId;
 
@@ -91,6 +94,7 @@ export default class ProjectButtons extends React.Component {
             })
             .catch((err) => {
               console.log(err);
+              
               alert("Checked out failed please join project ");
             });
         }
@@ -100,7 +104,8 @@ export default class ProjectButtons extends React.Component {
       });
   };
   sendCheckoutToBackend = () => {
-    var quantity = this.props.quantity; // Access the quantity prop
+    var quantity = 0
+    quantity = this.props.quantity; // Access the quantity prop
     var projectId = this.props.projectId;
     var userId = this.props.userId;
 
@@ -140,7 +145,8 @@ export default class ProjectButtons extends React.Component {
       });
   };
   sendCheckoutToBackend2 = () => {
-    var quantity = this.props.quantity; // Access the quantity prop
+    var quantity = 0
+    quantity = this.props.quantity; // Access the quantity prop
     var projectId = this.props.projectId;
     var userId = this.props.userId;
 

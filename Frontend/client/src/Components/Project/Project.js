@@ -143,8 +143,11 @@ export default class Project extends React.Component {
           </div>
           <TextField
             id="qtyBox"
+            type="number"
+            
             onKeyDown={this.enterhandler}
             label="qty"
+            autoComplete="off"
             //value={this.state.value}
           />
           <ProjectButtons
